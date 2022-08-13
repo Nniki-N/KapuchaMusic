@@ -1,58 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kapuha_music/domain/blocs/setting_cubit.dart';
 import 'package:kapuha_music/resources/resources.dart';
 import 'package:kapuha_music/ui/utils/app_colors.dart';
 import 'package:kapuha_music/ui/utils/font_styles.dart';
 
 class SettingsList extends StatelessWidget {
-  SettingsList({
+  const SettingsList({
     Key? key,
   }) : super(key: key);
 
-  final listItemsFirst = <Map<String, dynamic>>[
-    {
-      'text': 'Saved Messages',
-      'imagePath': Svgs.chat,
-      'onTap': () {},
-    },
-    {
-      'text': 'Saved Messages',
-      'imagePath': Svgs.chat,
-      'onTap': () {},
-    },
-    {
-      'text': 'Saved Messages',
-      'imagePath': Svgs.chat,
-      'onTap': () {},
-    },
-  ];
-
-  final listItemsSecond = <Map<String, dynamic>>[
-    {
-      'text': 'Saved Messages',
-      'imagePath': Svgs.chat,
-      'onTap': () {},
-    },
-    {
-      'text': 'Saved Messages',
-      'imagePath': Svgs.chat,
-      'onTap': () {},
-    },
-    {
-      'text': 'Saved Messages',
-      'imagePath': Svgs.chat,
-      'onTap': () {},
-    },
-    {
-      'text': 'Saved Messages',
-      'imagePath': Svgs.chat,
-      'onTap': () {},
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<SettingsCubit>();
+
     return Expanded(
       child: Column(
         children: [
@@ -60,9 +23,8 @@ class SettingsList extends StatelessWidget {
             shrinkWrap: true,
             physics: const ClampingScrollPhysics(),
             padding: EdgeInsets.zero,
-            itemBuilder: (_, index) =>
-                _ListItem(index: index, item: listItemsFirst[index]),
-            itemCount: listItemsFirst.length,
+            itemBuilder: (_, index) => _ListItem(index: index),
+            itemCount: cubit.getLength(),
             separatorBuilder: (_, int index) => SizedBox(height: 1.h),
           ),
           SizedBox(height: 20.h),
@@ -70,9 +32,17 @@ class SettingsList extends StatelessWidget {
             shrinkWrap: true,
             physics: const ClampingScrollPhysics(),
             padding: EdgeInsets.zero,
-            itemBuilder: (_, index) =>
-                _ListItem(index: index, item: listItemsSecond[index]),
-            itemCount: listItemsSecond.length,
+            itemBuilder: (_, index) => _ListItem(index: index),
+            itemCount: cubit.getLength(),
+            separatorBuilder: (_, int index) => SizedBox(height: 1.h),
+          ),
+          SizedBox(height: 20.h),
+          ListView.separated(
+            shrinkWrap: true,
+            physics: const ClampingScrollPhysics(),
+            padding: EdgeInsets.zero,
+            itemBuilder: (_, index) => _ListItem(index: index),
+            itemCount: cubit.getLength(),
             separatorBuilder: (_, int index) => SizedBox(height: 1.h),
           ),
         ],
@@ -83,18 +53,18 @@ class SettingsList extends StatelessWidget {
 
 class _ListItem extends StatelessWidget {
   final int index;
-  final Map<String, dynamic> item;
 
   const _ListItem({
     Key? key,
     required this.index,
-    required this.item,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<SettingsCubit>();
+
     return GestureDetector(
-      onTap: item['onTap'],
+      onTap: () {},
       child: Container(
         padding:
             EdgeInsets.only(left: 16.w, top: 10.h, right: 16.w, bottom: 10.h),
@@ -111,7 +81,7 @@ class _ListItem extends StatelessWidget {
                 color: AppColors.pink,
               ),
               child: SvgPicture.asset(
-                item['imagePath'],
+                cubit.getImagePath(index),
                 fit: BoxFit.fitHeight,
                 width: 15.w,
                 height: 15.h,
@@ -119,7 +89,7 @@ class _ListItem extends StatelessWidget {
             ),
             SizedBox(width: 10.w),
             Text(
-              item['text'],
+              cubit.getSettingTitle(index),
               style: FontStyles.style14.copyWith(color: Colors.black),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,

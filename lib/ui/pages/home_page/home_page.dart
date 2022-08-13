@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kapuha_music/domain/blocs/favourite_music_cubit.dart';
+import 'package:kapuha_music/domain/blocs/my_music_cubit.dart';
 import 'package:kapuha_music/resources/resources.dart';
 import 'package:kapuha_music/ui/pages/home_page/favourite_music_list.dart';
 import 'package:kapuha_music/ui/pages/home_page/your_music_list.dart';
@@ -39,8 +42,14 @@ class _HomePageState extends State<HomePage> {
     ];
 
     final listMusicLists = [
-      const YourMusicList(),
-      const FavouriteMusicList(),
+      BlocProvider(
+        create: (_) => MyMusicCubit(),
+        child: const YourMusicList(),
+      ),
+      BlocProvider(
+        create: (_) => FavouriteMusicCubit(),
+        child: const FavouriteMusicList(),
+      ),
     ];
 
     return Scaffold(

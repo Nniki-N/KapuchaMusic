@@ -1,72 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kapuha_music/resources/resources.dart';
+import 'package:kapuha_music/domain/blocs/chats_cubit.dart';
 import 'package:kapuha_music/ui/utils/app_colors.dart';
 import 'package:kapuha_music/ui/utils/font_styles.dart';
 
 class ChatsList extends StatelessWidget {
-  ChatsList({
+  const ChatsList({
     Key? key,
   }) : super(key: key);
 
-  final listItems = <Map<String, dynamic>>[
-    {
-      'avatar': Images.avatar,
-      'userName': 'User name 1',
-      'text':
-          'sfjkd sdlkf sk sl; ksnnv l;sdf rlk  v;l;s n srlkkmf ksdflksdfan askfmglksnrknwnej  cksdkf;sekfjlkejl s ldsdfnjdejesfn sdlkvksn',
-      'date': 'Wed',
-      'messageCount': 3,
-      'onTap': () {},
-    },
-    {
-      'avatar': Images.avatar,
-      'userName': 'User name 2',
-      'text':
-          'sfjkd sdlkf sk sl; ksnnv l;sdf rlk  v;l;s n srlkkmf ksdflksdfan askfmglksnrknwnej  cksdkf;sekfjlkejl s ldsdfnjdejesfn sdlkvksn',
-      'date': 'Wed',
-      'messageCount': 34,
-      'onTap': () {},
-    },
-    {
-      'avatar': Images.avatar,
-      'userName': 'User name 3',
-      'text':
-          'sfjkd sdlkf sk sl; ksnnv l;sdf rlk  v;l;s n srlkkmf ksdflksdfan askfmglksnrknwnej  cksdkf;sekfjlkejl s ldsdfnjdejesfn sdlkvksn',
-      'date': 'Wed',
-      'messageCount': 0,
-      'onTap': () {},
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final cubit = context.watch<ChatsCubit>();
+
     return ListView.separated(
       padding: EdgeInsets.zero,
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
       itemBuilder: (_, index) =>
-          _ListItem(index: index, item: listItems[index]),
+          _ListItem(index: index),
       separatorBuilder: (_, index) => SizedBox(height: 1.h),
-      itemCount: listItems.length,
+      itemCount: cubit.getLength(),
     );
   }
 }
 
 class _ListItem extends StatelessWidget {
   final int index;
-  final Map<String, dynamic> item;
 
   const _ListItem({
     Key? key,
     required this.index,
-    required this.item,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<ChatsCubit>();
+
     return GestureDetector(
-      onTap: item['onTap'],
+      onTap: () {},
       child: Container(
         padding:
             EdgeInsets.only(left: 16.w, top: 10.h, right: 16.w, bottom: 10.h),
@@ -75,16 +48,16 @@ class _ListItem extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _Avatar(avatar: item['avatar']),
+            _Avatar(avatar: cubit.getAvatarPath(index)),
             SizedBox(width: 8.w),
             _FirstChatInfo(
-              userName: item['userName'],
-              text: item['text'],
+              userName: cubit.getUserName(index),
+              text: cubit.getLastMessage(index),
             ),
             SizedBox(width: 8.w),
             _DateAndMessageCount(
-              date: item['date'],
-              count: item['messageCount'],
+              date: cubit.getLastMessageTime(index),
+              count: cubit.getUnreadMessages(index),
             ),
           ],
         ),

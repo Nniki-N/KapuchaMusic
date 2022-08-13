@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kapuha_music/domain/blocs/start_cubit.dart';
 import 'package:kapuha_music/resources/resources.dart';
 import 'package:kapuha_music/ui/navigation/main_navigation.dart';
 import 'package:kapuha_music/ui/utils/app_colors.dart';
@@ -12,30 +14,33 @@ class StartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              AppColors.pink,
-              AppColors.darkBlue,
+    return BlocProvider(
+      create: (context) => StartCubit(context),
+      child: Scaffold(
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                AppColors.pink,
+                AppColors.darkBlue,
+              ],
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const _IntroducingText(),
+              const _Title(),
+              _StartList(),
+              const Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: const [_ButtonStart()],
+              )
             ],
           ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const _IntroducingText(),
-            const _Title(),
-            _StartList(),
-            const Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: const [_ButtonStart()],
-            )
-          ],
         ),
       ),
     );
@@ -206,8 +211,14 @@ class _ButtonStart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.watch<StartCubit>();
+
     return GestureDetector(
-      onTap: () => Navigator.of(context).pushReplacementNamed(MainNavigationRouteNames.mainPage),
+      onTap: () {
+        cubit.firstEnter();
+        Navigator.of(context)
+          .pushReplacementNamed(MainNavigationRouteNames.mainPage);
+      },
       child: Container(
         margin: EdgeInsets.only(right: 16.w, bottom: 40.h),
         width: 160.w,

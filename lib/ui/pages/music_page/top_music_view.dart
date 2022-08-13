@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kapuha_music/domain/blocs/top_music_cubit.dart';
 import 'package:kapuha_music/resources/resources.dart';
 import 'package:kapuha_music/ui/utils/app_colors.dart';
 import 'package:kapuha_music/ui/utils/font_styles.dart';
 import 'package:kapuha_music/ui/widgets/title_row.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class TopMusic extends StatelessWidget {
-  const TopMusic({
+class TopMusicView extends StatelessWidget {
+  const TopMusicView({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final listItems = <Map<String, dynamic>>[
-      {'image': Images.img1, 'text': 'Lil Nas X, Nas Rodeo'},
-      {'image': Images.img2, 'text': 'Lil Nas X, Nas Rodeo'},
-      {'image': Images.img3, 'text': 'Lil Nas X, Nas Rodeo'},
-      {'image': Images.img4, 'text': 'Lil Nas X, Nas Rodeo'},
-      {'image': Images.img5, 'text': 'Lil Nas X, Nas Rodeo'},
-    ];
+    final cubit = context.watch<TopMusicCubit>();
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -41,10 +37,9 @@ class TopMusic extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemBuilder: (_, index) => _ListItem(
               index: index,
-              item: listItems[index],
             ),
             separatorBuilder: (_, index) => SizedBox(width: 8.w),
-            itemCount: listItems.length,
+            itemCount: cubit.getLength(),
           ),
         )
       ],
@@ -54,16 +49,16 @@ class TopMusic extends StatelessWidget {
 
 class _ListItem extends StatelessWidget {
   final int index;
-  final Map<String, dynamic> item;
 
   const _ListItem({
     Key? key,
     required this.index,
-    required this.item,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<TopMusicCubit>();
+
     return Column(
       children: [
         Container(
@@ -72,7 +67,7 @@ class _ListItem extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(6.h),
             image: DecorationImage(
-              image: AssetImage(item['image']),
+              image: AssetImage(cubit.getImagePath(index)),
               fit: BoxFit.cover,
             ),
           ),
@@ -103,7 +98,7 @@ class _ListItem extends StatelessWidget {
               SizedBox(width: 5.w),
               Expanded(
                 child: Text(
-                  item['text'],
+                  cubit.getText(index),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: FontStyles.style12.copyWith(

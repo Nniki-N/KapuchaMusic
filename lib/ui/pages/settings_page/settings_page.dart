@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kapuha_music/domain/blocs/setting_cubit.dart';
 import 'package:kapuha_music/resources/resources.dart';
 import 'package:kapuha_music/ui/pages/settings_page/settings_list.dart';
 import 'package:kapuha_music/ui/utils/app_colors.dart';
@@ -20,7 +22,7 @@ class SettingsPage extends StatelessWidget {
         'onTap': () {},
       },
     ];
-    
+
     return Scaffold(
       backgroundColor: AppColors.lightGreyBg,
       body: Stack(
@@ -28,14 +30,19 @@ class SettingsPage extends StatelessWidget {
           ListView(
             padding: EdgeInsets.only(top: 140.h),
             children: [
-              SettingsList(),
+              BlocProvider(
+                create: (_) => SettingsCubit(),
+                child: const SettingsList(),
+              ),
             ],
           ),
           Positioned(
             left: 0,
             top: 0,
             right: 0,
-            child: Header(listButtons: listHeaderButtons,),
+            child: Header(
+              listButtons: listHeaderButtons,
+            ),
           ),
         ],
       ),

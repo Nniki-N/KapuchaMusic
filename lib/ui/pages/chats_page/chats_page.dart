@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kapuha_music/domain/blocs/chats_cubit.dart';
 import 'package:kapuha_music/resources/resources.dart';
 import 'package:kapuha_music/ui/pages/chats_page/chats_list.dart';
 import 'package:kapuha_music/ui/utils/app_colors.dart';
@@ -31,7 +33,10 @@ class ChatsPage extends StatelessWidget {
                   onTap: () {},
                   spacer: true),
               SizedBox(height: 20.h),
-              ChatsList()
+              BlocProvider(
+                create: (_) => ChatsCubit(),
+                child: const ChatsList(),
+              ),
             ],
           ),
           Positioned(

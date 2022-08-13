@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kapuha_music/domain/blocs/my_music_cubit.dart';
 import 'package:kapuha_music/resources/resources.dart';
 import 'package:kapuha_music/ui/utils/app_colors.dart';
 import 'package:kapuha_music/ui/utils/font_styles.dart';
@@ -10,69 +12,32 @@ class YourMusicList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final listItems = <Map<String, dynamic>>[
-      {
-        'image': Images.img6,
-        'songName': 'Lil Nas X, Nas - Rodeo',
-        'album': '7 Ep',
-        'listening': 6125
-      },
-      {
-        'image': Images.img7,
-        'songName': 'Lil Nas X, Nas - Rodeo',
-        'album': '7 Ep',
-        'listening': 6125
-      },
-      {
-        'image': Images.img8,
-        'songName': 'Lil Nas X, Nas - Rodeo',
-        'album': '7 Ep',
-        'listening': 6125
-      },
-      {
-        'image': Images.img6,
-        'songName': 'Lil Nas X, Nas - Rodeo',
-        'album': '7 Ep',
-        'listening': 6125
-      },
-      {
-        'image': Images.img7,
-        'songName': 'Lil Nas X, Nas - Rodeo',
-        'album': '7 Ep',
-        'listening': 6125
-      },
-      {
-        'image': Images.img8,
-        'songName': 'Lil Nas X, Nas - Rodeo',
-        'album': '7 Ep',
-        'listening': 6125
-      },
-    ];
+    final cubit = context.watch<MyMusicCubit>();
 
     return ListView.separated(
       padding: EdgeInsets.zero,
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
       itemBuilder: (_, index) =>
-          _ListItem(index: index, item: listItems[index]),
+          _ListItem(index: index),
       separatorBuilder: (_, index) => SizedBox(height: 1.h),
-      itemCount: listItems.length,
+      itemCount: cubit.getLength(),
     );
   }
 }
 
 class _ListItem extends StatelessWidget {
   final int index;
-  final Map<String, dynamic> item;
 
   const _ListItem({
     Key? key,
     required this.index,
-    required this.item,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<MyMusicCubit>();
+
     return Container(
       padding:
           EdgeInsets.only(left: 16.w, top: 20.h, right: 54.w, bottom: 20.h),
@@ -80,17 +45,17 @@ class _ListItem extends StatelessWidget {
       color: Colors.white,
       child: Row(
         children: [
-          _ListItemImage(index: index, item: item),
+          _ListItemImage(index: index, imagePath: cubit.getImagePath(index)),
           SizedBox(width: 15.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _ListItemTitle(item: item),
+                _ListItemTitle(songName: cubit.getSongName(index)),
                 SizedBox(height: 7.h),
-                _ListItemAlbum(item: item),
+                _ListItemAlbum(album: cubit.getAlbum(index)),
                 SizedBox(height: 15.h),
-                _ListItemListening(item: item),
+                _ListItemListening(listening: cubit.getListening(index)),
                 SizedBox(height: 9.h),
                 const _ListItemButtons()
               ],
@@ -105,12 +70,11 @@ class _ListItem extends StatelessWidget {
 class _ListItemImage extends StatelessWidget {
   const _ListItemImage({
     Key? key,
-    required this.index,
-    required this.item,
+    required this.index, required this.imagePath,
   }) : super(key: key);
 
+  final String imagePath;
   final int index;
-  final Map<String, dynamic> item;
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +92,7 @@ class _ListItemImage extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(6.h),
             image: DecorationImage(
-              image: AssetImage(item['image']),
+              image: AssetImage(imagePath),
               fit: BoxFit.cover,
             ),
           ),
@@ -151,17 +115,18 @@ class _ListItemImage extends StatelessWidget {
 class _ListItemTitle extends StatelessWidget {
   const _ListItemTitle({
     Key? key,
-    required this.item,
+    required this.songName,
   }) : super(key: key);
 
-  final Map<String, dynamic> item;
+  final String songName;
 
   @override
   Widget build(BuildContext context) {
+    
     return Row(
       children: [
         Text(
-          item['songName'],
+          songName,
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
           style: FontStyles.style14.copyWith(
@@ -188,10 +153,11 @@ class _ListItemTitle extends StatelessWidget {
 class _ListItemAlbum extends StatelessWidget {
   const _ListItemAlbum({
     Key? key,
-    required this.item,
+    required this.album,
   }) : super(key: key);
 
-  final Map<String, dynamic> item;
+    final String album;
+
 
   @override
   Widget build(BuildContext context) {
@@ -207,7 +173,7 @@ class _ListItemAlbum extends StatelessWidget {
         ),
         SizedBox(width: 5.w),
         Text(
-          item['album'],
+          album,
           style: FontStyles.style12.copyWith(
             color: HexColor.fromHex('#A9A9A9'),
           ),
@@ -220,15 +186,16 @@ class _ListItemAlbum extends StatelessWidget {
 class _ListItemListening extends StatelessWidget {
   const _ListItemListening({
     Key? key,
-    required this.item,
+    required this.listening,
   }) : super(key: key);
 
-  final Map<String, dynamic> item;
+    final int listening;
+
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      '${item['listening']} listening',
+      '$listening listening',
       style: FontStyles.styleSmallText.copyWith(
         color: HexColor.fromHex('#484848'),
         fontSize: 11.sp,
