@@ -98,7 +98,7 @@ class _ListItem extends StatelessWidget {
               SizedBox(width: 5.w),
               Expanded(
                 child: Text(
-                  cubit.getText(index),
+                  cubit.getSongName(index),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: FontStyles.style12.copyWith(

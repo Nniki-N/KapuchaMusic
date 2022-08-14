@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:kapuha_music/domain/data_providers/search_people_provider.dart';
-import 'package:kapuha_music/domain/entity/users.dart';
+import 'package:kapuha_music/domain/entity/user/users.dart';
 
 class PeopleCubit extends Cubit<Users> {
   final _peopleProvider = PeopleProvider();

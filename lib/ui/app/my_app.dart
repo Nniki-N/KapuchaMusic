@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: ThemeData(fontFamily: 'Gilroy'),
             title: 'KAPUTA music',
-            initialRoute: MainNavigationRouteNames.startPage,
+            initialRoute: MainNavigationRouteNames.loaderPage,
             routes: mainNavigation.routes,
           );
         });

@@ -1,50 +1,51 @@
+import 'package:kapuha_music/domain/entity/music/music.dart';
 import 'package:kapuha_music/resources/resources.dart';
 
 class MyMusicProvider {
-  var _musicList = <Map<String, dynamic>>[
-      {
-        'imagePath': Images.img6,
-        'songName': 'Lil Nas X, Nas - Rodeo',
-        'album': '7 Ep',
-        'listening': 6125
-      },
-      {
-        'imagePath': Images.img7,
-        'songName': 'Lil Nas X, Nas - Rodeo',
-        'album': '7 Ep',
-        'listening': 6125
-      },
-      {
-        'imagePath': Images.img8,
-        'songName': 'Lil Nas X, Nas - Rodeo',
-        'album': '7 Ep',
-        'listening': 6125
-      },
-      {
-        'imagePath': Images.img6,
-        'songName': 'Lil Nas X, Nas - Rodeo',
-        'album': '7 Ep',
-        'listening': 6125
-      },
-      {
-        'imagePath': Images.img7,
-        'songName': 'Lil Nas X, Nas - Rodeo',
-        'album': '7 Ep',
-        'listening': 6125
-      },
-      {
-        'imagePath': Images.img8,
-        'songName': 'Lil Nas X, Nas - Rodeo',
-        'album': '7 Ep',
-        'listening': 6125
-      },
-    ];
+  var _musicList = <Music>[
+    Music(
+      imagePath: Images.img6,
+      songName: 'Lil Nas X, Nas - Rodeo',
+      album: '7 Ep',
+      listening: 6125,
+    ),
+    Music(
+      imagePath: Images.img7,
+      songName: 'Lil Nas X, Nas - Rodeo',
+      album: '7 Ep',
+      listening: 6125,
+    ),
+    Music(
+      imagePath: Images.img8,
+      songName: 'Lil Nas X, Nas - Rodeo',
+      album: '7 Ep',
+      listening: 6125,
+    ),
+    Music(
+      imagePath: Images.img6,
+      songName: 'Lil Nas X, Nas - Rodeo',
+      album: '7 Ep',
+      listening: 6125,
+    ),
+    Music(
+      imagePath: Images.img7,
+      songName: 'Lil Nas X, Nas - Rodeo',
+      album: '7 Ep',
+      listening: 6125,
+    ),
+    Music(
+      imagePath: Images.img8,
+      songName: 'Lil Nas X, Nas - Rodeo',
+      album: '7 Ep',
+      listening: 6125,
+    ),
+  ];
 
-  List<Map<String, dynamic>> loadValue() {
+  List<Music> loadValue() {
     return _musicList;
   }
 
-  voidsaveValue(List<Map<String, dynamic>> list) {
+  voidsaveValue(List<Music> list) {
     _musicList = list;
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kapuha_music/domain/data_providers/chats_provider.dart';
-import 'package:kapuha_music/domain/entity/chat_users.dart';
+import 'package:kapuha_music/domain/entity/chats/chat_users.dart';
 
 class ChatsCubit extends Cubit<ChatUsers> {
   final _chatsProvider = ChatsProvider();

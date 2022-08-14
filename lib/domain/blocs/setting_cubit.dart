@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kapuha_music/domain/data_providers/settings_provider.dart';
-import 'package:kapuha_music/domain/entity/setting_items.dart';
+import 'package:kapuha_music/domain/entity/setting_items/setting_items.dart';
 
 class SettingsCubit extends Cubit<SettingItems> {
   final _settingsProvider = SettingsProvider();

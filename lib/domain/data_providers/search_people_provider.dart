@@ -1,6 +1,6 @@
 
 
-import 'package:kapuha_music/domain/entity/user.dart';
+import 'package:kapuha_music/domain/entity/user/user.dart';
 import 'package:kapuha_music/resources/resources.dart';
 
 class PeopleProvider {

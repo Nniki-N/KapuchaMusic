@@ -4,13 +4,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:kapuha_music/domain/data_providers/top_music_provider.dart';
-import 'package:kapuha_music/domain/entity/music.dart';
+import 'package:kapuha_music/domain/entity/music/music_collection.dart';
 
 
-class TopMusicCubit extends Cubit<Music> {
+class TopMusicCubit extends Cubit<MusicCollection> {
   final _topMusicProvider = TopMusicProvider();
 
-  TopMusicCubit() : super(Music(musicList: [])) {
+  TopMusicCubit() : super(MusicCollection(musicList: [])) {
     _initialize();
   }
 
@@ -22,8 +22,8 @@ class TopMusicCubit extends Cubit<Music> {
 
   int getLength() => state.musicList.length;
 
-  String getImagePath(int index) => state.musicList[index]['imagePath'];
-  String getText(int index) => state.musicList[index]['text'];
+  String getImagePath(int index) => state.musicList[index].imagePath;
+  String getSongName(int index) => state.musicList[index].songName;
   
   void loadMusic() {
     final musicList = _topMusicProvider.loadValue();

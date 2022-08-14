@@ -1,4 +1,4 @@
-import 'package:kapuha_music/domain/entity/setting_item.dart';
+import 'package:kapuha_music/domain/entity/setting_items/setting_item.dart';
 import 'package:kapuha_music/resources/resources.dart';
 
 class SettingsProvider {

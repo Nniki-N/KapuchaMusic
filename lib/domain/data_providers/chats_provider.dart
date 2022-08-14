@@ -1,4 +1,4 @@
-import 'package:kapuha_music/domain/entity/chat_user.dart';
+import 'package:kapuha_music/domain/entity/chats/chat_user.dart';
 import 'package:kapuha_music/resources/resources.dart';
 
 class ChatsProvider {
