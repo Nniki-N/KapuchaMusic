@@ -12,16 +12,29 @@ class FavouriteMusicList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit= context.watch<FavouriteMusicCubit>();
+    final cubit = context.watch<FavouriteMusicCubit>();
+    final length = cubit.getLength();
 
-    return ListView.separated(
-      padding: EdgeInsets.zero,
-      shrinkWrap: true,
-      physics: const ClampingScrollPhysics(),
-      itemBuilder: (_, index) =>
-          _ListItem(index: index),
-      separatorBuilder: (_, index) => SizedBox(height: 1.h),
-      itemCount: cubit.getLength(),
+    return Expanded(
+      child: length != 0
+          ? ListView.separated(
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              physics: const ClampingScrollPhysics(),
+              itemBuilder: (_, index) => _ListItem(index: index),
+              separatorBuilder: (_, index) => SizedBox(height: 1.h),
+              itemCount: length,
+            )
+          : Center(
+              child: Text(
+                'Your favourite music list is empty',
+                style: FontStyles.styleBigText.copyWith(
+                  fontSize: 22,
+                  color: Colors.black.withOpacity(0.5),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
     );
   }
 }
@@ -36,7 +49,7 @@ class _ListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit= context.read<FavouriteMusicCubit>();
+    final cubit = context.read<FavouriteMusicCubit>();
 
     return Container(
       padding:
@@ -57,7 +70,7 @@ class _ListItem extends StatelessWidget {
                 SizedBox(height: 15.h),
                 _ListItemListening(listening: cubit.getListening(index)),
                 SizedBox(height: 9.h),
-                const _ListItemButtons()
+                _ListItemButtons(index: index),
               ],
             ),
           ),
@@ -119,8 +132,7 @@ class _ListItemTitle extends StatelessWidget {
     required this.songName,
   }) : super(key: key);
 
-    final String songName;
-
+  final String songName;
 
   @override
   Widget build(BuildContext context) {
@@ -205,28 +217,37 @@ class _ListItemListening extends StatelessWidget {
 }
 
 class _ListItemButtons extends StatelessWidget {
+  final int index;
   const _ListItemButtons({
     Key? key,
+    required this.index,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<FavouriteMusicCubit>();
+    var isFavourite = cubit.getisFavourite(index);
+    var music = cubit.getMusic(index);
+
     return Row(
       children: [
         GestureDetector(
-          onTap: () {},
+          onTap: () => cubit.removeFromFavourite(music),
           child: SizedBox(
             height: 15.h,
             width: 15.w,
-            child: SvgPicture.asset(Svgs.favouriteFilled),
+            child: SvgPicture.asset(
+              isFavourite ? Svgs.favouriteFilled : Svgs.favourite,
+            ),
           ),
         ),
         SizedBox(width: 15.w),
         GestureDetector(
-          onTap: () {},
-          child: SizedBox(
+          onTap: () => cubit.deleteMusic(music),
+          child: Container(
             height: 15.h,
             width: 15.w,
+            color: Colors.transparent,
             child: SvgPicture.asset(Svgs.remove),
           ),
         ),

@@ -56,9 +56,9 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: AppColors.lightGreyBg,
       body: Stack(
         children: [
-          ListView(
-            padding: EdgeInsets.only(top: 140.h),
+          Column(
             children: [
+              SizedBox(height: 140.h),
               SizedBox(
                 height: 20.h,
                 child: ListView.separated(

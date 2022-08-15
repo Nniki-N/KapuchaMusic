@@ -72,7 +72,7 @@ class _ListItem extends StatelessWidget {
                 SizedBox(height: 15.h),
                 _ListItemListening(listening: cubit.getListening(index)),
                 SizedBox(height: 9.h),
-                const _ListItemButtons()
+                _ListItemButtons(index: index),
               ],
             ),
           ),
@@ -215,16 +215,23 @@ final int listening;
 }
 
 class _ListItemButtons extends StatelessWidget {
+  final int index;
   const _ListItemButtons({
-    Key? key,
+    Key? key, required this.index,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.watch<MostListeningMusicCubit>();
+    var music = cubit.getMusic(index).copyWith();
+
     return Row(
       children: [
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            music = music.copyWith(isFavourite: !music.isFavourite);
+            cubit.addToMyMusic(music);
+          },
           child: SizedBox(
             height: 15.h,
             width: 15.w,
@@ -233,7 +240,7 @@ class _ListItemButtons extends StatelessWidget {
         ),
         SizedBox(width: 15.w),
         GestureDetector(
-          onTap: () {},
+          onTap: () => cubit.addToMyMusic(music),
           child: SizedBox(
             height: 15.h,
             width: 15.w,

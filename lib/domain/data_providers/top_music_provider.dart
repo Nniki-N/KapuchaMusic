@@ -8,38 +8,43 @@ class TopMusicProvider {
       songName: 'Lil Nas X, Nas - Rodeo',
       album: '7 Ep',
       listening: 6125,
+      isFavourite: false,
     ),
     Music(
       imagePath: Images.img2,
       songName: 'Lil Nas X, Nas - Rodeo',
       album: '7 Ep',
       listening: 6125,
+      isFavourite: false,
     ),
     Music(
       imagePath: Images.img3,
       songName: 'Lil Nas X, Nas - Rodeo',
       album: '7 Ep',
       listening: 6125,
+      isFavourite: false,
     ),
     Music(
       imagePath: Images.img4,
       songName: 'Lil Nas X, Nas - Rodeo',
       album: '7 Ep',
       listening: 6125,
+      isFavourite: false,
     ),
     Music(
       imagePath: Images.img5,
       songName: 'Lil Nas X, Nas - Rodeo',
       album: '7 Ep',
       listening: 6125,
+      isFavourite: false,
     ),
   ];
 
-  List<Music> loadValue(){
+  List<Music> loadValue() {
     return _musicList;
   }
 
-  void saveValue(List<Music> list){
+  void saveValue(List<Music> list) {
     _musicList = list;
   }
 }

@@ -8,18 +8,21 @@ class MostListeningMusicProvider {
       songName: 'Lil Nas X, Nas - Rodeo',
       album: '7 Ep',
       listening: 6125,
+      isFavourite: false,
     ),
     Music(
       imagePath: Images.img7,
       songName: 'Lil Nas X, Nas - Rodeo',
       album: '7 Ep',
       listening: 6125,
+      isFavourite: false,
     ),
     Music(
       imagePath: Images.img8,
       songName: 'Lil Nas X, Nas - Rodeo',
       album: '7 Ep',
       listening: 6125,
+      isFavourite: false,
     ),
   ];
 
